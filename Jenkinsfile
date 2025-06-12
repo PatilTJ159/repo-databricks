@@ -2,51 +2,83 @@ pipeline {
     agent any
 
     environment {
-        PYSPARK_PYTHON = "python3"
+        VENV_DIR = 'venv'
+        PYSPARK_TEST_SCRIPT = 'tests/test_myfirst-test-notebook.py'
     }
 
     stages {
-        stage('Checkout') {
+
+        stage('Clone Repo') {
             steps {
-                git 'https://github.com/PatilTJ159/repo-databricks.git'
+                echo 'Cloning the GitHub repository...'
+                checkout scm
             }
         }
 
-        stage('Install Dependencies') {
+        stage('Setup Python Env') {
             steps {
-                sh 'pip install -r requirements.txt'
+                sh '''
+                python3 -m venv $VENV_DIR
+                source $VENV_DIR/bin/activate
+                pip install --upgrade pip
+                pip install -r requirements.txt
+                '''
             }
         }
 
-        stage('Lint') {
+        stage('Code Linting') {
             steps {
-                sh 'flake8 src/'
+                sh '''
+                source $VENV_DIR/bin/activate
+                flake8 src/
+                '''
             }
         }
 
-        stage('Run Tests') {
+        stage('Run Unit Tests') {
             steps {
-                sh 'pytest tests/'
+                sh '''
+                source $VENV_DIR/bin/activate
+                pytest $PYSPARK_TEST_SCRIPT
+                '''
             }
         }
 
-        stage('Run PySpark Job') {
+        stage('Build Spark Job') {
             steps {
-                sh 'spark-submit myfirst-test-notebook.py'
+                echo 'Validating PySpark job...'
+                sh '''
+                source $VENV_DIR/bin/activate
+                python src/main_job.py --dry-run
+                '''
             }
         }
 
-        
+        stage('Deploy') {
+            steps {
+                echo 'Deploying the Spark job...'
+                // Example: copy to HDFS, submit to cluster, etc.
+                sh '''
+                spark-submit \
+                  --master yarn \
+                  --deploy-mode cluster \
+                  --py-files dependencies.zip \
+                  src/main_job.py
+                '''
+            }
+        }
     }
 
     post {
         always {
-            junit 'tests/test-results.xml'  // If using JUnit style reporting
+            echo 'Cleaning up...'
+            sh 'rm -rf $VENV_DIR'
+        }
+        success {
+            echo 'Pipeline completed successfully.'
         }
         failure {
-            mail to: 'teju.patil1415@gmail.com',
-                 subject: 'Build Failed',
-                 body: 'Please check Jenkins job logs.'
+            echo 'Pipeline failed. Check logs.'
         }
     }
 }
