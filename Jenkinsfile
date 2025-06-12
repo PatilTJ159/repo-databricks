@@ -3,6 +3,8 @@ pipeline {
 
     environment {
         VENV_DIR = 'venv'
+        SPARK_HOME = 'C:\\Users\\DELL\\Downloads\\spark-4.0.0-bin-hadoop3'
+        PYSPARK_PYTHON = "${WORKSPACE}\\venv\\Scripts\\python.exe"
         PYSPARK_TEST_SCRIPT = 'tests\\test_myfirsttestnotebook.py'
     }
 
@@ -60,10 +62,11 @@ pipeline {
                 echo 'Deploying the Spark job...'
                 bat '''
                 call %VENV_DIR%\\Scripts\\activate
-                spark-submit ^
-                  --master local ^
-                  --py-files dependencies.zip ^
-                  src\\main_job.py
+                set SPARK_HOME=C:\\Users\\DELL\\Downloads\\spark-4.0.0-bin-hadoop3
+                set PATH=%SPARK_HOME%\\bin;%PATH%
+                set PYSPARK_PYTHON=%cd%\\venv\\Scripts\\python.exe
+                %SPARK_HOME%\\bin\\spark-submit --master local myfirsttestnotebook.py
+        
                 '''
             }
         }
