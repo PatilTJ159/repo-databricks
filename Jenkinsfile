@@ -30,7 +30,7 @@ pipeline {
             steps {
                 bat '''
                 call %VENV_DIR%\\Scripts\\activate
-                flake8 src
+                flake8 .
                 '''
             }
         }
