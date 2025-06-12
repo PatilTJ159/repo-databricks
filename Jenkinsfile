@@ -41,8 +41,11 @@ pipeline {
         stage('Run Unit Tests') {
             steps {
                 bat '''
-                call %VENV_DIR%\\Scripts\\activate
-                pytest %PYSPARK_TEST_SCRIPT%
+                call venv\\Scripts\\activate
+                set SPARK_HOME=C:\\Users\\DELL\\Downloads\\spark-4.0.0-bin-hadoop3
+                set PYSPARK_PYTHON=venv\\Scripts\\python.exe
+                set PATH=%SPARK_HOME%\\bin;%PATH%
+                pytest tests/
                 '''
             }
         }
