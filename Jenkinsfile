@@ -22,6 +22,7 @@ pipeline {
                 call %VENV_DIR%\\Scripts\\activate
                 pip install --upgrade pip
                 pip install -r requirements.txt
+                pip install flake8 pytest
                 '''
             }
         }
@@ -30,7 +31,7 @@ pipeline {
             steps {
                 bat '''
                 call %VENV_DIR%\\Scripts\\activate
-                flake8 .
+                flake8 . --config=.flake8
                 '''
             }
         }
