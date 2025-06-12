@@ -3,7 +3,7 @@ pipeline {
 
     environment {
         VENV_DIR = 'venv'
-        PYSPARK_TEST_SCRIPT = 'tests\\test_myfirst_test_notebook.py'
+        PYSPARK_TEST_SCRIPT = 'tests\\test_myfirst-test-notebook.py'
     }
 
     stages {
@@ -50,7 +50,7 @@ pipeline {
                 echo 'Validating PySpark job...'
                 bat '''
                 call %VENV_DIR%\\Scripts\\activate
-                python myfirst_test_notebook.py
+                python myfirst-test-notebook.py
                 '''
             }
         }
