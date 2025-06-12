@@ -5,7 +5,7 @@ def some_function(x):
     return x * 2
 
 def get_spark_session():
-    return spark = SparkSession.builder.getOrCreate()
+    return SparkSession.builder.getOrCreate()
 
 # Databricks notebook source
 def run_spark_job():
