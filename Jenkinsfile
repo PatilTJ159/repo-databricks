@@ -3,7 +3,7 @@ pipeline {
 
     environment {
         VENV_DIR = 'venv'
-        SPARK_HOME = 'C:\\Users\\DELL\\Downloads\\spark-4.0.0-bin-hadoop3\\spark-4.0.0-bin-hadoop3'
+        SPARK_HOME = 'C:\\Users\\DELL\\Downloads\\spark-3.4.4-bin-hadoop3\\spark-3.4.4-bin-hadoop3'
         PYSPARK_PYTHON = "${WORKSPACE}\\venv\\Scripts\\python.exe"
         PYSPARK_TEST_SCRIPT = 'tests\\test_myfirsttestnotebook.py'
         JAVA_HOME = 'C:\\Program Files\\Java\\jdk-17' 
@@ -53,7 +53,7 @@ pipeline {
             steps {
                 bat '''
                 call venv\\Scripts\\activate
-                set SPARK_HOME=C:\\Users\\DELL\\Downloads\\spark-4.0.0-bin-hadoop3
+                set SPARK_HOME=C:\\Users\\DELL\\Downloads\\spark-3.4.4-bin-hadoop3\\spark-3.4.4-bin-hadoop3
                 set PYSPARK_PYTHON=venv\\Scripts\\python.exe
                 set PATH=%SPARK_HOME%\\bin;%PATH%
                 pytest tests/
@@ -76,7 +76,7 @@ pipeline {
                 echo 'Deploying the Spark job...'
                 bat '''
                 call %VENV_DIR%\\Scripts\\activate
-                set SPARK_HOME=C:\\Users\\DELL\\Downloads\\spark-4.0.0-bin-hadoop3
+                set SPARK_HOME=C:\\Users\\DELL\\Downloads\\spark-3.4.4-bin-hadoop3\\spark-3.4.4-bin-hadoop3
                 set PATH=%SPARK_HOME%\\bin;%PATH%
                 set PYSPARK_PYTHON=%cd%\\venv\\Scripts\\python.exe
                 %SPARK_HOME%\\bin\\spark-submit --master local myfirsttestnotebook.py
