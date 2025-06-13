@@ -3,9 +3,11 @@ pipeline {
 
     environment {
         VENV_DIR = 'venv'
-        SPARK_HOME = 'C:\\Users\\DELL\\Downloads\\spark-4.0.0-bin-hadoop3'
+        SPARK_HOME = 'C:\\Users\\DELL\\Downloads\\spark-4.0.0-bin-hadoop3\\spark-4.0.0-bin-hadoop3'
         PYSPARK_PYTHON = "${WORKSPACE}\\venv\\Scripts\\python.exe"
         PYSPARK_TEST_SCRIPT = 'tests\\test_myfirsttestnotebook.py'
+        JAVA_HOME = 'C:\\Program Files\\Java\\jdk-17' 
+        PATH = "${env.PATH};${env.SPARK_HOME}\\bin;${env.JAVA_HOME}\\bin"
     }
 
     stages {
