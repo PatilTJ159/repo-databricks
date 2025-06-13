@@ -25,6 +25,7 @@ pipeline {
             bat 'python -m venv venv'
             bat 'call venv\\Scripts\\activate && pip install --upgrade pip'
             bat 'call venv\\Scripts\\activate && pip install -r requirements.txt'
+            bat '"C:\\Users\\DELL\\AppData\\Local\\Programs\\Python\\Python310\\python.exe" -m venv venv'
             }
     }
         
