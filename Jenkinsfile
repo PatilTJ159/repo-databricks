@@ -8,6 +8,8 @@ pipeline {
         PYSPARK_TEST_SCRIPT = 'tests\\test_myfirsttestnotebook.py'
         JAVA_HOME = 'C:\\Program Files\\Java\\jdk-17' 
         PATH = "${env.PATH};${env.SPARK_HOME}\\bin;${env.JAVA_HOME}\\bin"
+        DATABRICKS_HOST = credentials('DATABRICKS_HOST1')  // Optional
+        DATABRICKS_TOKEN = credentials('DATABRICKS_TOKEN_NEW')
     }
 
     stages {
@@ -70,7 +72,23 @@ pipeline {
                 '''
             }
         }
+        
+        stage('Install CLI') {
+            steps {
+                bat ''' 
+                pip install --upgrade databricks-cli
+                '''
+            }
+        }
 
+        stage('Deploy Notebook') {
+            steps {
+                bat ''' 
+                    databricks workspace import_dir notebooks /Users/teju.patil1415@gmail.com/ -o
+                '''
+            }
+        }
+        
         stage('Deploy') {
             steps {
                 echo 'Deploying the Spark job...'
