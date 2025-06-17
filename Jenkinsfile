@@ -22,7 +22,7 @@ pipeline {
             steps {
                 echo 'Creating virtual environment and installing dependencies...'
                 bat '''
-                    ${PYTHON_EXE} -m venv %VENV_DIR%
+                    %PYTHON_EXE% -m venv %VENV_DIR%
                     call %VENV_DIR%\\Scripts\\activate
                     python -m pip install --upgrade pip
                     pip install -r requirements.txt
@@ -91,3 +91,4 @@ pipeline {
         }
     }
 }
+`
